@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DCB76A3F1A4C1094003BEC4A /* LYRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB76A3E1A4C1094003BEC4A /* LYRequest.m */; };
 		DCF0F31F1A3A8C6500B26975 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DCF0F31E1A3A8C6500B26975 /* main.m */; };
 		DCF0F3221A3A8C6500B26975 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DCF0F3211A3A8C6500B26975 /* AppDelegate.m */; };
 		DCF0F3251A3A8C6500B26975 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCF0F3241A3A8C6500B26975 /* ViewController.m */; };
@@ -14,7 +15,6 @@
 		DCF0F32A1A3A8C6500B26975 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCF0F3291A3A8C6500B26975 /* Images.xcassets */; };
 		DCF0F32D1A3A8C6500B26975 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCF0F32B1A3A8C6500B26975 /* LaunchScreen.xib */; };
 		DCF0F3391A3A8C6500B26975 /* testDownloadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DCF0F3381A3A8C6500B26975 /* testDownloadTests.m */; };
-		DCF0F3441A3A8C9600B26975 /* LYRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DCF0F3431A3A8C9600B26975 /* LYRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +28,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DCB76A3D1A4C1094003BEC4A /* LYRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYRequest.h; sourceTree = "<group>"; };
+		DCB76A3E1A4C1094003BEC4A /* LYRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYRequest.m; sourceTree = "<group>"; };
 		DCF0F3191A3A8C6500B26975 /* LYNetwork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LYNetwork.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCF0F31D1A3A8C6500B26975 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCF0F31E1A3A8C6500B26975 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -41,8 +43,6 @@
 		DCF0F3321A3A8C6500B26975 /* LYNetworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LYNetworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCF0F3371A3A8C6500B26975 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCF0F3381A3A8C6500B26975 /* testDownloadTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = testDownloadTests.m; sourceTree = "<group>"; };
-		DCF0F3421A3A8C9600B26975 /* LYRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYRequest.h; sourceTree = "<group>"; };
-		DCF0F3431A3A8C9600B26975 /* LYRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYRequest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +63,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DCB76A3C1A4C107A003BEC4A /* LYRequest */ = {
+			isa = PBXGroup;
+			children = (
+				DCB76A3D1A4C1094003BEC4A /* LYRequest.h */,
+				DCB76A3E1A4C1094003BEC4A /* LYRequest.m */,
+			);
+			path = LYRequest;
+			sourceTree = "<group>";
+		};
 		DCF0F3101A3A8C6500B26975 = {
 			isa = PBXGroup;
 			children = (
@@ -88,8 +97,7 @@
 				DCF0F3211A3A8C6500B26975 /* AppDelegate.m */,
 				DCF0F3231A3A8C6500B26975 /* ViewController.h */,
 				DCF0F3241A3A8C6500B26975 /* ViewController.m */,
-				DCF0F3421A3A8C9600B26975 /* LYRequest.h */,
-				DCF0F3431A3A8C9600B26975 /* LYRequest.m */,
+				DCB76A3C1A4C107A003BEC4A /* LYRequest */,
 				DCF0F3261A3A8C6500B26975 /* Main.storyboard */,
 				DCF0F3291A3A8C6500B26975 /* Images.xcassets */,
 				DCF0F32B1A3A8C6500B26975 /* LaunchScreen.xib */,
@@ -224,7 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCF0F3441A3A8C9600B26975 /* LYRequest.m in Sources */,
+				DCB76A3F1A4C1094003BEC4A /* LYRequest.m in Sources */,
 				DCF0F3251A3A8C6500B26975 /* ViewController.m in Sources */,
 				DCF0F3221A3A8C6500B26975 /* AppDelegate.m in Sources */,
 				DCF0F31F1A3A8C6500B26975 /* main.m in Sources */,

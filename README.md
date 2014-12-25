@@ -9,7 +9,7 @@ Basic request Network kit  (LYNetwork是完全开源基于get,post请求的网�
 * Get
 ```oc
   NSURL *url = [NSURL URLWithString:@"http://114.215.101.94:83/service/ads.php?type=1&flag=1"];
-  LYRequest *request = [LYRequest shareInstance];<br>
+  LYRequest *request = [LYRequest shareInstance];
   [request requestWithURL:url
                    params:nil
                   method:@"get"
@@ -26,8 +26,8 @@ Basic request Network kit  (LYNetwork是完全开源基于get,post请求的网�
   
 * Post
 ```oc1
-  NSURL *url = [NSURL URLWithString:@"http://115.29.249.23:8081/Dictionaries.ashx?diction=login"];
-  NSDictionary *dict = @{@"username":@"xuzhuxiang", @"pwd":@"1234"};
+  NSURL *url = [NSURL URLWithString:@"http://114.215.101.94:83/service/ads.php"];
+  NSDictionary *dict = @{@"type":@"1", @"flag":@"1"};
   LYRequest *request = [LYRequest shareInstance];
   [request requestWithURL:url
                    params:dict

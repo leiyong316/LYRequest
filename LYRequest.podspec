@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "LYRequest"
-  s.version      = "0.1"
+  s.version      = "0.2"
   s.summary      = "an ios Basic request Network kit."
   s.homepage     = "https://github.com/leiyong316/LYNetwork"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }

@@ -12,6 +12,7 @@
 @interface ViewController ()
 
 @property (nonatomic, strong) IBOutlet   UILabel        *label;
+- (IBAction)uploadClick:(id)sender;
 - (IBAction)downloadClick:(id)sender;
 - (IBAction)getRequest:(id)sender;
 - (IBAction)postRequest:(id)sender;
@@ -26,6 +27,29 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)uploadClick:(id)sender{
+    LYRequest *request = [LYRequest shareInstance];
+    NSURL *url = [NSURL URLWithString:@"http://115.29.249.23:8081/Receive.ashx?operation=fqsp"]; // your fileupload address
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"IMG_1710.JPG" ofType:nil];
+    NSDictionary *params = @{@"approvalid":@"9",
+                             @"approvalname":@"ok",
+                             @"categoryid":@"2",
+                             @"contents":@"Try",
+                             @"title":@"Leon",
+                             @"userid":@"260",
+                             @"username":@"admin",
+                             @"workname":@"WorkApproval"};
+    
+    [request uploadWithURL:url filename:@"IMG_1710.JPG" params:params filePath:path progress:^(float progress) {
+        self.label.text = [NSString stringWithFormat:@"%d%%",(int)progress];
+    } finish:^(NSData *data) {
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"result =%@", result);
+    } error:^(NSURLConnection *connection, NSError *error) {
+        NSLog(@"error");
+    }];
 }
 
 - (IBAction)downloadClick:(id)sender{

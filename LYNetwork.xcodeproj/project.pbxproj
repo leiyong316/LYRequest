@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC94D49C1A5FBD72008F24DF /* IMG_1710.JPG in Resources */ = {isa = PBXBuildFile; fileRef = DC94D49B1A5FBD72008F24DF /* IMG_1710.JPG */; };
 		DCB76A3F1A4C1094003BEC4A /* LYRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB76A3E1A4C1094003BEC4A /* LYRequest.m */; };
 		DCF0F31F1A3A8C6500B26975 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DCF0F31E1A3A8C6500B26975 /* main.m */; };
 		DCF0F3221A3A8C6500B26975 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DCF0F3211A3A8C6500B26975 /* AppDelegate.m */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DC94D49B1A5FBD72008F24DF /* IMG_1710.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_1710.JPG; sourceTree = "<group>"; };
 		DCB76A3D1A4C1094003BEC4A /* LYRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYRequest.h; sourceTree = "<group>"; };
 		DCB76A3E1A4C1094003BEC4A /* LYRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYRequest.m; sourceTree = "<group>"; };
 		DCF0F3191A3A8C6500B26975 /* LYNetwork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LYNetwork.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +113,7 @@
 			children = (
 				DCF0F31D1A3A8C6500B26975 /* Info.plist */,
 				DCF0F31E1A3A8C6500B26975 /* main.m */,
+				DC94D49B1A5FBD72008F24DF /* IMG_1710.JPG */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC94D49C1A5FBD72008F24DF /* IMG_1710.JPG in Resources */,
 				DCF0F3281A3A8C6500B26975 /* Main.storyboard in Resources */,
 				DCF0F32D1A3A8C6500B26975 /* LaunchScreen.xib in Resources */,
 				DCF0F32A1A3A8C6500B26975 /* Images.xcassets in Resources */,

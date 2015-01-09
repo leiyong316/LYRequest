@@ -1,10 +1,28 @@
 //
 //  LYRequest.m
-//  testDownload
 //
-//  Created by Leon on 14-12-12.
-//  Copyright (c) 2014年 __FULLNAME__. All rights reserved.
+// The MIT License (MIT)
 //
+// Copyright (c) 2014 Leon https://github.com/leiyong316
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 
 #import "LYRequest.h"
 
@@ -12,12 +30,41 @@
 #define POST    @"POST"
 
 @interface LYRequest()
+
+/**
+ *  下载时的文件总大小
+ */
 @property (nonatomic, assign) long long             filesize;
-@property (nonatomic, retain) NSMutableData         *data;
-@property (nonatomic, retain) NSURLConnection       *connection;
+
+/**
+ *  请求data
+ */
+@property (nonatomic, strong) NSMutableData         *data;
+
+/**
+ *  请求connection
+ */
+@property (nonatomic, strong) NSURLConnection       *connection;
+
+/**
+ *  请求成功处理block
+ */
 @property (nonatomic, copy) RequestFinishBlock      requestFinish;
+
+/**
+ *  请求失败处理block
+ */
 @property (nonatomic, copy) RequestErrorBlock       requestError;
+
+/**
+ *  上传或下载progress
+ */
 @property (nonatomic, copy) RequestProgressBlock    requestProgress;
+
+/**
+ *  请求类型, 普通请求(get/post)或者上传下载
+ */
+@property (nonatomic, assign) LYRequestType requestType;
 @end
 
 @implementation LYRequest
@@ -33,6 +80,14 @@
 
 + (instancetype)shareInstance {
     return [[self alloc] init];
+}
+
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+        self.requestType = LYRequestTypeDefault;
+    }
+    return self;
 }
 
 - (void)requestWithURL:(NSURL*)url
@@ -55,7 +110,8 @@
     if (error){
         self.requestError    = error;
     }
-    if ([[method uppercaseString] isEqualToString:POST]) {
+    if (self.requestType == LYRequestTypeDefault &&
+        [[method uppercaseString] isEqualToString:POST]) {
         NSData *data = [[self urlEncodedKeyValueString:param] dataUsingEncoding:NSUTF8StringEncoding];
         [self setHTTPBody:data];
     }
@@ -66,7 +122,7 @@
           progressBlock:(RequestProgressBlock)progress
             finishBlock:(RequestFinishBlock)success
              errorBlock:(RequestErrorBlock)error{
-    
+    self.requestType = LYRequestTypeDownload;
     if (progress){
         self.requestProgress = progress;
     }
@@ -76,6 +132,69 @@
                 useCache:NO
              finishBlock:success
               errorBlock:error];
+}
+
+- (void)uploadWithURL:(NSURL*)url
+             filename:(NSString*)filename
+               params:(NSDictionary*)params
+             filePath:(NSString*)filepath
+             progress:(RequestProgressBlock)progress
+               finish:(RequestFinishBlock)success
+                error:(RequestErrorBlock)error{    
+    self.requestType = LYRequestTypeUpload;
+    [self setURL:url];
+    [self setHTTPMethod:@"POST"];
+    if (success){
+        self.requestFinish   = success;
+    }
+    if (error){
+        self.requestError    = error;
+    }
+    if (progress){
+        self.requestProgress = progress;
+    }
+    NSString *mimeType = [self getFileMIMEType:filepath];
+    NSMutableData *body = [NSMutableData data];
+    NSString *boundary = @"0xKhTmLbOuNdArY";
+    NSString *thisFieldString = [NSString stringWithFormat:
+                                 @"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\nContent-Type: %@\r\n\r\n",
+                                 boundary,
+                                 @"file",
+                                 filename,
+                                 mimeType];
+    [body appendData:[thisFieldString dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[NSData dataWithContentsOfFile:filepath]];
+    [body appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSString *thisFieldString = [NSString stringWithFormat:
+                                     @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n%@\r\n",
+                                     boundary, key, obj];
+        [body appendData:[thisFieldString dataUsingEncoding:NSUTF8StringEncoding]];
+    }];
+    NSString *overString = [NSString stringWithFormat:@"--%@--\r\n",boundary];
+    [body appendData:[overString dataUsingEncoding:NSUTF8StringEncoding]];
+    [self setHTTPBody:body];
+    [self setValue:[NSString stringWithFormat:@"%lu", (unsigned long)body.length] forHTTPHeaderField:@"Content-Length"];
+    [self setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary] forHTTPHeaderField:@"Content-Type"];
+    [self startAsyncRequest];
+}
+
+
+/**
+ *  获取文件mimeType
+ *
+ *  @param path 文件路径
+ *
+ *  @return mimeType
+ */
+- (NSString*)getFileMIMEType:(NSString*)path{
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]];
+    NSError *error;
+    NSURLResponse *response;
+    [NSURLConnection sendSynchronousRequest:request
+                          returningResponse:&response
+                                      error:&error];
+    return [response MIMEType];
 }
 
 //请求网络
@@ -93,7 +212,7 @@
 
 #pragma mark <NSURLConnectionDataDelegate>
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    if (self.requestProgress) {
+    if (self.requestType == LYRequestTypeDownload && self.requestProgress) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if(httpResponse && [httpResponse respondsToSelector:@selector(allHeaderFields)]){
             NSDictionary *httpResponseHeaderFields = [httpResponse allHeaderFields];
@@ -104,7 +223,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [self.data appendData:data];
-    if (self.requestProgress) {
+    if (self.requestType == LYRequestTypeDownload && self.requestProgress) {
         float progress  = self.data.length/(float)self.filesize;
         float d = round(progress*100);
         self.requestProgress(d);
@@ -115,6 +234,16 @@
     self.requestFinish(_data);
     if (self.requestProgress) {
         self.requestProgress = nil;
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten
+                                               totalBytesWritten:(NSInteger)totalBytesWritten
+                                       totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
+    if (self.requestType == LYRequestTypeUpload && self.requestProgress) {
+        if(totalBytesExpectedToWrite > 0) {
+            self.requestProgress(round(((double)totalBytesWritten/(double)totalBytesExpectedToWrite)*100));
+        }
     }
 }
 

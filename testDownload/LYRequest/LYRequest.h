@@ -57,7 +57,7 @@ typedef void(^RequestProgressBlock)(float progress);
  *  @param url     请求地址
  *  @param param   请求参数
  *  @param method  method
- *  @param use     是否使用缓存（目前缓存没有，加续加上）
+ *  @param use     是否使用缓存（目前缓存没有，后续加上）
  *  @param success success
  *  @param error   error
  */

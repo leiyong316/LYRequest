@@ -1,4 +1,3 @@
 language: objective-c
-xcode_workspace: LYNetwork.xcodeproj
 xcode_scheme: LYNetwork
 xcode_sdk: iphonesimulator

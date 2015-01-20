@@ -1,4 +1,4 @@
-LYNetwork
+LYNetwork [![Build Status](https://travis-ci.org/leiyong316/LYNetwork.svg)](https://travis-ci.org/leiyong316/LYNetwork)
 =========
 
 Basic request Network kit  (LYNetwork是完全开源基于get,post请求的网络库)
